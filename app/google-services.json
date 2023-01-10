@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "226807339676",
+    "project_id": "smartalert-1071e",
+    "storage_bucket": "smartalert-1071e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226807339676:android:e09f77d93ee976d01fab59",
+        "android_client_info": {
+          "package_name": "com.example.smartalert"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226807339676-ip7ms9tsncsh0s67sa73diqub54gpai0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smartalert",
+            "certificate_hash": "041ef83fdb502761c76e7ce4ffd1a7220799e8d4"
+          }
+        },
+        {
+          "client_id": "226807339676-b9kr3lq7h74dg378he24d24rr3k77n2a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXEwDqeFcOcANgX6oEWDQPwyx2BIud1Qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226807339676-b9kr3lq7h74dg378he24d24rr3k77n2a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
