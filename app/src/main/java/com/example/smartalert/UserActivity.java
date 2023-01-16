@@ -15,8 +15,9 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         Intent i = getIntent();
-        String userData = i.getStringExtra("userData");
-        ((TextView)findViewById(R.id.usergreetText)).setText("Hi, "+userData);
+        User userData = new User();
+        userData.setUsername(i.getStringExtra("email"));
+        ((TextView)findViewById(R.id.usergreetText)).setText("Hi, "+userData.getUsername());
     }
     public void launchUsersettings(View v){
         Intent i = new Intent(this, UserSettings.class);

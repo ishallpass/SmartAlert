@@ -105,7 +105,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="Welcome to Lighthouse"
-        android:textColor="#0E0E0E"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
