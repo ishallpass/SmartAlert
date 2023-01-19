@@ -77,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()){
                                 for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
                                     role[0] = documentSnapshot.get("role").toString();
-                                    myUser.setUsername(documentSnapshot.get("email").toString());
+                                    myUser.setEmail(documentSnapshot.get("email").toString());
+                                    myUser.setUsername(documentSnapshot.get("username").toString());
+                                    myUser.setRole(documentSnapshot.get("role").toString());
+                                    myUser.setLast_latitude(documentSnapshot.get("last_latitude").toString());
+                                    myUser.setLast_latitude(documentSnapshot.get("last_longitude").toString());
+                                    myUser.setID(documentSnapshot.getId());
                                 }
                             }
                             else {
@@ -112,10 +117,12 @@ public class MainActivity extends AppCompatActivity {
         public void launchUser(User userData){
             Intent i = new Intent(this, UserActivity.class);
             //Pass data to other activity
-            i.putExtra("email", userData.getUsername());
+            i.putExtra("username",userData.getUsername());
+            i.putExtra("email", userData.getEmail());
             i.putExtra("role", userData.getRole());
             i.putExtra("latitude", userData.getLast_latitude());
             i.putExtra("longitude",userData.getLast_longitude());
+            i.putExtra("ID",userData.getID());
             startActivity(i);
         }
         public void launchAdmin(User adminData){

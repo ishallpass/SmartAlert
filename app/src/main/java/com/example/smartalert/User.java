@@ -1,14 +1,25 @@
 package com.example.smartalert;
 
 public class User{
+    private String email;
     private String ID;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     private String username;
     private String password_hash;
     private String last_longitude;
     private String last_latitude;
     private String role;
 
-    public void user(String username, String password_hash, String last_longitude, String last_latitude, String role) {
+    public void user(String email,String username, String password_hash, String last_longitude, String last_latitude, String role) {
+        this.email = email;
         this.username = username;
         this.password_hash = password_hash;
         this.last_longitude = last_longitude;
