@@ -10,18 +10,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.api.core.ApiFuture;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
-
-import java.util.concurrent.ExecutionException;
 
 public class UserSettings extends AppCompatActivity {
     String emaiSyntax = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
@@ -42,7 +36,7 @@ public class UserSettings extends AppCompatActivity {
         userData.setEmail(i.getStringExtra("email"));
         userData.setUsername(i.getStringExtra("username"));
         userData.setID(i.getStringExtra("ID"));
-        setContentView(R.layout.activity_user_settings);
+        setContentView(R.layout.activity_settings);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         saveButton = findViewById(R.id.button);
@@ -119,7 +113,7 @@ public class UserSettings extends AppCompatActivity {
         });
     }
     public void editPersonalSettings(View v){
-        View menu = findViewById(R.id.personalLayout);
+        View menu = findViewById(R.id.Editsetings);
         if (menu.getVisibility() == View.INVISIBLE) menu.setVisibility(View.VISIBLE);
         else menu.setVisibility(View.INVISIBLE);
     }

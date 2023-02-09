@@ -1,18 +1,15 @@
 package com.example.smartalert;
 
-import java.sql.Timestamp;
-
 public class Report {
-    private String ID;
     private String User_ID_FK;
     private String Report_longitude;
     private String Report_latitude;
-    private Timestamp Timespamt;
+    private long Timespamt;
     private String Category;
     private String Comments;
     private String Url_Image;
 
-    public Report(String user_ID_FK, String report_longitude, String report_latitude, Timestamp timespamt, String category, String comments, String url_Image) {
+    public Report(String user_ID_FK, String report_longitude, String report_latitude, long timespamt, String category, String comments, String url_Image) {
         User_ID_FK = user_ID_FK;
         Report_longitude = report_longitude;
         Report_latitude = report_latitude;
@@ -34,7 +31,7 @@ public class Report {
         Report_latitude = report_latitude;
     }
 
-    public void setTimespamt(Timestamp timespamt) {
+    public void setTimespamt(long timespamt) {
         Timespamt = timespamt;
     }
 
@@ -50,10 +47,6 @@ public class Report {
         Url_Image = url_Image;
     }
 
-    public String getID() {
-        return ID;
-    }
-
     public String getUser_ID_FK() {
         return User_ID_FK;
     }
@@ -66,7 +59,7 @@ public class Report {
         return Report_latitude;
     }
 
-    public Timestamp getTimespamp() {
+    public long getTimespamp() {
         return Timespamt;
     }
 
