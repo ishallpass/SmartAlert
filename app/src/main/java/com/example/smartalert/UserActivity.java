@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +61,8 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     EditText comments;
     Uri imagePath;
     ImageView gallleryPick;
+
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -127,7 +130,7 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         UploadImage currentImage = new UploadImage(imagePath,UserActivity.this,userData.getID());
 
-        Report report = new Report(userData.getID(),longitude,latitude,System.currentTimeMillis(),category,comments.getText().toString(),null);
+        Report report = new Report(userData.getID(),longitude,latitude,timeFormat.format(System.currentTimeMillis()),category,comments.getText().toString(),null);
 
         currentImage.imagetoCloudAndFileReport(UserActivity.this,report);
 
