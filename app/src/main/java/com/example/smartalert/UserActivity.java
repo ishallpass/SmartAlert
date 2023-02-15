@@ -57,7 +57,9 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner spinner;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final int REQUEST_LOCATION_PERMISSION = 100;
-    String longitude,latitude,category;
+
+    String longitude=null,latitude=null,category=null;
+
     EditText comments;
     Uri imagePath;
     ImageView gallleryPick;
@@ -99,8 +101,9 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newReport();
                 getLocation();
+                newReport();
+
                 //yourLocation.
 
             }
@@ -125,15 +128,16 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void sendReport(View v){
-        Toast.makeText(UserActivity.this, "po po ena report", Toast.LENGTH_SHORT).show();
 
+        getLocation();
+        if(longitude ==null || latitude == null){Toast.makeText(UserActivity.this, "please turn on your gps and resend report request", Toast.LENGTH_SHORT).show();}
+        else{
+            Report report = new Report(userData.getID(),longitude,latitude,System.currentTimeMillis(),category,comments.getText().toString(),null);
 
-        UploadImage currentImage = new UploadImage(imagePath,UserActivity.this,userData.getID());
+        UploadReport currentImage = new UploadReport(imagePath,UserActivity.this,userData.getID(),report);
 
-        Report report = new Report(userData.getID(),longitude,latitude,timeFormat.format(System.currentTimeMillis()),category,comments.getText().toString(),null);
-
-        currentImage.imagetoCloudAndFileReport(UserActivity.this,report);
-
+        currentImage.imagetoCloudAndFileReport(UserActivity.this);
+        }
     }
 
     public void launchUsersettings(View v) {
@@ -170,7 +174,7 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
                             e.printStackTrace();
                         }
                     } else {
-                        Toast.makeText(UserActivity.this, "error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserActivity.this, "please turn on your gps error", Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {

@@ -1,77 +1,75 @@
 package com.example.smartalert;
 
 public class Report {
-    private String User_ID_FK;
-    private String Report_longitude;
-    private String Report_latitude;
-    private String Timespamt;
-    private String Category;
-    private String Comments;
-    private String Url_Image;
+    private String user_ID_FK;
+    private String report_longitude;
+    private String report_latitude;
+    private long timespamt;
+    private String category;
+    private String comments;
+    private String url_Image;
 
-    public Report(String user_ID_FK, String report_longitude, String report_latitude, String timespamt, String category, String comments, String url_Image) {
-        User_ID_FK = user_ID_FK;
-        Report_longitude = report_longitude;
-        Report_latitude = report_latitude;
-        Timespamt = timespamt;
-        Category = category;
-        Comments = comments;
-        Url_Image = url_Image;
+    public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, long build_timespamt, String build_category, String build_comments, String build_url_Image) {
+        user_ID_FK = build_user_ID_FK;
+        report_longitude = build_report_longitude;
+        report_latitude = build_report_latitude;
+        timespamt = build_timespamt;
+        category = build_category;
+        comments = build_comments;
+        url_Image = build_url_Image;
     }
 
-    public void setUser_ID_FK(String user_ID_FK) {
-        User_ID_FK = user_ID_FK;
+    public void setUser_ID_FK(String set_user_ID_FK) {
+        user_ID_FK = user_ID_FK;
     }
 
-    public void setReport_longitude(String report_longitude) {
-        Report_longitude = report_longitude;
+    public void setReport_longitude(String set_report_longitude) {
+        report_longitude = set_report_longitude;
     }
 
-    public void setReport_latitude(String report_latitude) {
-        Report_latitude = report_latitude;
+    public void setReport_latitude(String set_report_latitude) {
+        report_latitude = set_report_latitude;
     }
 
-    public void setTimespamt(String timespamt) {
-        Timespamt = timespamt;
+    public void setTimespamt(long set_timespamt) {timespamt = set_timespamt;}
+
+    public void setCategory(String set_category) {
+        category = set_category;
     }
 
-    public void setCategory(String category) {
-        Category = category;
+    public void setComments(String set_comments) {
+        comments = set_comments;
     }
 
-    public void setComments(String comments) {
-        Comments = comments;
-    }
-
-    public void setUrl_Image(String url_Image) {
-        Url_Image = url_Image;
+    public void setUrl_Image(String set_url_Image) {
+        url_Image = set_url_Image;
     }
 
     public String getUser_ID_FK() {
-        return User_ID_FK;
+        return user_ID_FK;
     }
 
     public String getReport_longitude() {
-        return Report_longitude;
+        return report_longitude;
     }
 
     public String getReport_latitude() {
-        return Report_latitude;
+        return report_latitude;
     }
 
-    public String getTimespamp() {
-        return Timespamt;
+    public long getTimespamp() {
+        return timespamt;
     }
 
     public String getCategory() {
-        return Category;
+        return category;
     }
 
     public String getComments() {
-        return Comments;
+        return comments;
     }
 
     public String getUrl_Image() {
-        return Url_Image;
+        return url_Image;
     }
 }

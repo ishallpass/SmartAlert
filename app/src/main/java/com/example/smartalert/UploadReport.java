@@ -17,15 +17,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class UploadImage {
+public class UploadReport {
     private Uri image;
     private Context context;
     private String UserID;
+    Report report;
 
-    public UploadImage(Uri image, Context context,String UserID) {
+    public UploadReport(Uri image, Context context, String UserID,Report report) {
         this.image = image;
         this.context = context;
         this.UserID = UserID;
+        this.report = report;
     }
 
     public void setUserID(String userID) {
@@ -48,7 +50,15 @@ public class UploadImage {
         return image;
     }
 
-    public void imagetoCloudAndFileReport(Context context,Report report){
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    public void imagetoCloudAndFileReport(Context context){
         ProgressDialog  progressDialog= new ProgressDialog(context);
         progressDialog.setTitle("Please wait");
         progressDialog.show();
