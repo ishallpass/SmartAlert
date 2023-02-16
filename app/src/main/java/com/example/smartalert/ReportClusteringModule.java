@@ -1,6 +1,9 @@
 package com.example.smartalert;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -15,66 +18,49 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ReportClusteringModule{
-    ArrayList<Report> reportArrayList1stHourCluster = new ArrayList<>();
-    ArrayList<Report> reportArrayList2ndHourCluster = new ArrayList<>();
-    ArrayList<Report> reportArrayList3rdHourCluster = new ArrayList<>();
+    public ArrayList<Report> reportArrayList1stHourCluster = new ArrayList<>();
+    public ArrayList<Report> reportArrayList2ndHourCluster = new ArrayList<>();
+    public ArrayList<Report> reportArrayList3rdHourCluster = new ArrayList<>();
+
+
+    public ArrayList<ArrayList<Report>>reportArrayList1stHourClusterByCategory = new ArrayList<>();
+
+
+    public void setReportArrayList1stHourCluster(ArrayList<Report> reportArrayList1stHourCluster) {
+        this.reportArrayList1stHourCluster = reportArrayList1stHourCluster;
+    }
+
+    public void setReportArrayList2ndHourCluster(ArrayList<Report> reportArrayList2ndHourCluster) {
+        this.reportArrayList2ndHourCluster = reportArrayList2ndHourCluster;
+    }
+
+    public void setReportArrayList3rdHourCluster(ArrayList<Report> reportArrayList3rdHourCluster) {
+        this.reportArrayList3rdHourCluster = reportArrayList3rdHourCluster;
+    }
+
+    public ArrayList<Report> getReportArrayList1stHourCluster() {
+        return reportArrayList1stHourCluster;
+    }
+
+    public ArrayList<Report> getReportArrayList2ndHourCluster() {
+        return reportArrayList2ndHourCluster;
+    }
+
+    public ArrayList<Report> getReportArrayList3rdHourCluster() {
+        return reportArrayList3rdHourCluster;
+    }
 
     public ReportClusteringModule() {
     }
 
-    private void groupByCategory (ArrayList<ArrayList<ArrayList<Report>>> arrayOfReports){
-        ArrayList<ArrayList<ArrayList<ArrayList<Report>>>> totalFinalReportArrayList = new ArrayList<>();
-
-        Iterator<ArrayList<ArrayList<Report>>> i = arrayOfReports.iterator();
-
-
-        while (i.hasNext()){
-
-            ArrayList<ArrayList<ArrayList<Report>>> reportsByTimeBracketGpsCategory = new ArrayList<>();
-            ArrayList<ArrayList<Report>> reports= i.next();
-            Iterator<ArrayList<Report>> x = reports.iterator();
-
-            while (x.hasNext()){
-
-                ArrayList<Report> rainCluster = new ArrayList<>(),snowCluster=new ArrayList<>(),thunderCluster=new ArrayList<>(),fireCluster=new ArrayList<>();
-                ArrayList<ArrayList<Report>> reportByGpsCategory = new ArrayList<>();
-                ArrayList<Report> oneReportCluster = x.next();
-                Iterator<Report> y = oneReportCluster.iterator();
-
-
-                while (y.hasNext()){
-                    Report nextReport = y.next();
-                    if(nextReport.getCategory().equals("rain")) {
-                        rainCluster.add(nextReport);
-                    }
-                    else if(nextReport.getCategory().equals("fire")){
-                        fireCluster.add(nextReport);
-                    }
-                    else if(nextReport.getCategory().equals("snow")){
-                        snowCluster.add(nextReport);
-                    }
-                    else if(nextReport.getCategory().equals("thunderstorm")){
-                        thunderCluster.add(nextReport);
-                    }
-                }
-                if(rainCluster.size()>0){
-                    reportByGpsCategory.add(rainCluster);
-                }
-                if(fireCluster.size()>0){
-                    reportByGpsCategory.add(fireCluster);
-                }
-                if(snowCluster.size()>0){
-                    reportByGpsCategory.add(snowCluster);
-                }
-                if(thunderCluster.size()>0){
-                    reportByGpsCategory.add(thunderCluster);
-                }
-                reportsByTimeBracketGpsCategory.add(reportByGpsCategory);
-            }
-            totalFinalReportArrayList.add(reportsByTimeBracketGpsCategory);
-        }
+    public Map<String, List<Report>> groupByCategory (ArrayList<Report> arrayOfReports){
+        Map<String, List<Report>> myReportsPerCategory = arrayOfReports.stream().collect(Collectors.groupingBy(Report::getCategory));
+        return myReportsPerCategory;
     }
 
 
@@ -93,15 +79,25 @@ public class ReportClusteringModule{
             reportByCalendarAndGps.add(groupGpsReports);
 
         }
-        groupByCategory(reportByCalendarAndGps);
 
 
     }
 
-    public ArrayList<Report> getReports(){
+    public void getReports(Context context){
+
+        ProgressDialog progressDialog= new ProgressDialog(context);
+        progressDialog.setTitle("Fetching data by time");
+        progressDialog.show();
+        ArrayList<Report> reportArrayList1stHourClusterNew = new ArrayList<>();
+        ArrayList<Report> reportArrayList2ndHourClusterNew = new ArrayList<>();
+        ArrayList<Report> reportArrayList3rdHourClusterNew = new ArrayList<>();
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reportRef =  db.collection("reports");
-        Query firstHourCluster =reportRef.whereGreaterThanOrEqualTo("timestamp",removeTime(1));
+
+        Query firstHourCluster =reportRef.whereGreaterThan("timespamp",removeTime(1));
+        Query secondHourCluster = reportRef.whereGreaterThan("timespamp",removeTime(2));
+        Query thirdHourCluster = reportRef.whereGreaterThan("timespamp",removeTime(3));
 
         firstHourCluster.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -109,25 +105,70 @@ public class ReportClusteringModule{
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
                         Report report = new Report(documentSnapshot.get("user_ID_FK").toString(),documentSnapshot.get("report_longitude").toString(),documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"),documentSnapshot.get("category").toString(),documentSnapshot.get("comments").toString(),documentSnapshot.get("url_Image").toString());
-                        if(report != null){reportArrayList1stHourCluster.add(report);}
-                    }
+                        if(report != null){reportArrayList1stHourClusterNew.add(report);}
+                        }
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
                 }
                 else{
-                    //Toast.makeText(this.getApplicationContext(), "Data error check connection", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Data error check connection", Toast.LENGTH_LONG).show();
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
+
                 }
             }
         });
-        return reportArrayList1stHourCluster;
+        secondHourCluster.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                        Report report = new Report(documentSnapshot.get("user_ID_FK").toString(),documentSnapshot.get("report_longitude").toString(),documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"),documentSnapshot.get("category").toString(),documentSnapshot.get("comments").toString(),documentSnapshot.get("url_Image").toString());
+                        if(report != null){reportArrayList2ndHourClusterNew.add(report);}
+                    }
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
+                }
+                else{
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
+                    Toast.makeText(context, "Data error check connection", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+        thirdHourCluster.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                        Report report = new Report(documentSnapshot.get("user_ID_FK").toString(),documentSnapshot.get("report_longitude").toString(),documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"),documentSnapshot.get("category").toString(),documentSnapshot.get("comments").toString(),documentSnapshot.get("url_Image").toString());
+                        if(report != null){reportArrayList3rdHourClusterNew.add(report);}
+                    }
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
+                }
+                else{
+                    Toast.makeText(context, "Data error check connection", Toast.LENGTH_LONG).show();
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();}
+                }
+            }
+        });
+
+        setReportArrayList1stHourCluster(reportArrayList1stHourClusterNew);
+        setReportArrayList2ndHourCluster(reportArrayList2ndHourClusterNew);
+        setReportArrayList3rdHourCluster(reportArrayList3rdHourClusterNew);
     }
 
-    public long addTime(int time){
-        return System.currentTimeMillis()+(time*3600000);
+    public int addTime(int time){
+        return (int) (System.currentTimeMillis()+(time*3600000));
     }
-    public long removeTime(int time){
-        return System.currentTimeMillis()-(time*3600000);
+    public int removeTime(int time){
+        return (int) (System.currentTimeMillis()-(time*3600000));
     }
 
-    public static ArrayList<ArrayList<Report>> findClusters(ArrayList<Report> data, double distance) {
+    public ArrayList<ArrayList<Report>> findClusters(ArrayList<Report> data, double distance) {
         ArrayList<ArrayList<Report>> clusters = new ArrayList<ArrayList<Report>>();
         ArrayList<Report> visited = new ArrayList<Report>();
 
@@ -152,25 +193,16 @@ public class ReportClusteringModule{
             if (visited.contains(nextPoint)) {
                 continue;
             }
-
             double lat1 = Double.parseDouble(point.getReport_latitude());
             double lon1 = Double.parseDouble(point.getReport_longitude());
             double lat2 = Double.parseDouble(nextPoint.getReport_latitude());
             double lon2 = Double.parseDouble(nextPoint.getReport_longitude());
 
-            double d = distance(lat1, lon1, lat2, lon2);
+            double d = org.apache.lucene.util.SloppyMath.haversinMeters(lat1, lon1, lat2, lon2)/1000;
             if (d <= distance) {
                 findNeighbors(nextPoint, data, distance, cluster, visited);
             }
         }
-    }
-
-    public static double distance(double lat1, double lon1, double lat2, double lon2) {
-        double earthRadius = 6371; // km
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
-        return a;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.smartalert;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +21,18 @@ public class activity_admin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        Button button = findViewById(R.id.button2);
         datadataview = findViewById(R.id.textView3);
         ReportClusteringModule all = new ReportClusteringModule();
-        reportArrayList= all.getReports();
-        datadataview.append(reportArrayList.toString());
+
+        all.getReports(this);
+        all.groupByCategory(all.reportArrayList1stHourCluster);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datadataview.append(all.groupByCategory(all.reportArrayList1stHourCluster).toString());
+            }
+        });
     }
 
     }

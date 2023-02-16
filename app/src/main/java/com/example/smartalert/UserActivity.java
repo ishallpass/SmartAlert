@@ -58,7 +58,7 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final int REQUEST_LOCATION_PERMISSION = 100;
 
-    String longitude=null,latitude=null,category=null;
+    String longitude,latitude,category=null;
 
     EditText comments;
     Uri imagePath;
@@ -128,16 +128,12 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void sendReport(View v){
-
-        getLocation();
-        if(longitude ==null || latitude == null){Toast.makeText(UserActivity.this, "please turn on your gps and resend report request", Toast.LENGTH_SHORT).show();}
-        else{
-            Report report = new Report(userData.getID(),longitude,latitude,System.currentTimeMillis(),category,comments.getText().toString(),null);
+        Report report = new Report(userData.getID(),longitude,latitude,System.currentTimeMillis(),category,comments.getText().toString(),null);
 
         UploadReport currentImage = new UploadReport(imagePath,UserActivity.this,userData.getID(),report);
 
         currentImage.imagetoCloudAndFileReport(UserActivity.this);
-        }
+
     }
 
     public void launchUsersettings(View v) {
@@ -164,7 +160,7 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void onSuccess(Location location2) {
                     if (location2 != null) {
                         Geocoder geocoder = new Geocoder(UserActivity.this, Locale.getDefault());
-                        List<Address> location = null;
+                        List<Address> location;
                         try {
                             location = geocoder.getFromLocation(location2.getLatitude(), location2.getLongitude(), 1);
                             longitude = String.valueOf(location.get(0).getLongitude());
