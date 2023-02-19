@@ -1,7 +1,9 @@
 package com.example.smartalert;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.ConsoleMessage;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartalert.Utils.ReportClusteringModule;
 
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
 
 public class AdminActivity extends AppCompatActivity {
     private TextView datadataview;
@@ -23,9 +26,11 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Fetch reports from specific hours
-        ArrayList<Report> firstHourReports = reportFetcher.getReports(0,1);
-        ArrayList<Report> secondHourReports = reportFetcher.getReports(1,2);
-        ArrayList<Report> thirdHourReports = reportFetcher.getReports(2,3);
+        ArrayList<Report> firstHourReports = reportFetcher.getReports(this,0,1);
+        ArrayList<Report> secondHourReports = reportFetcher.getReports(this,1,2);
+        ArrayList<Report> thirdHourReports = reportFetcher.getReports(this,2,3);
+
+        Log.d("STATUS",firstHourReports.toString());
 
         // Group Reports based on category and location
         priorityReports.addAll(reportFetcher.groupReports(firstHourReports));

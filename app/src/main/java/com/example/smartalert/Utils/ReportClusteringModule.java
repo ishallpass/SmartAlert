@@ -1,5 +1,10 @@
 package com.example.smartalert.Utils;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.ContentView;
 import androidx.annotation.NonNull;
 
 import com.example.smartalert.Report;
@@ -7,6 +12,7 @@ import com.example.smartalert.SummaryReports;
 import com.example.smartalert.bridgeSummaryAndReportsArray;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.Logging;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -14,8 +20,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,18 +75,11 @@ public class ReportClusteringModule {
 
     }
 
-    public ArrayList<Report> getReports(int hourBegin,int hourEnd){
+    public ArrayList<Report> getReports(Context view, int hourBegin, int hourEnd){
         CollectionReference reportRef = db.collection("reports");
 
-        //Set Hour range for backed query
-        calendar.add(Calendar.HOUR_OF_DAY, -hourBegin);
-        Timestamp timeStart = new Timestamp(calendar.getTime());
-
-        calendar.add(Calendar.HOUR_OF_DAY, -hourEnd);
-        Timestamp timeEnd = new Timestamp(calendar.getTime());
-
         //Set query
-        Query query = reportRef.whereGreaterThan("timespamp",timeStart).whereLessThan("timespamp",timeEnd);
+        Query query = reportRef.whereGreaterThan("timespamp",removeTime(hourEnd)).whereLessThan("timespamp",removeTime(hourBegin));
 
         //Get Reports
         executeQuery(new FirestoreCallback() {
@@ -87,6 +90,10 @@ public class ReportClusteringModule {
         },query);
 
         return hourCluster;
+    }
+
+    public long removeTime(int time){
+        return  (System.currentTimeMillis()-(time*3600000));
     }
 
     private void executeQuery(FirestoreCallback firestoreCallback,Query query){
@@ -100,7 +107,7 @@ public class ReportClusteringModule {
                                 documentSnapshot.getString("user_ID_FK"),
                                 documentSnapshot.getString("report_longitude"),
                                 documentSnapshot.getString("report_latitude"),
-                                documentSnapshot.getTimestamp("timespamp"),
+                                documentSnapshot.getLong("timespamp"),
                                 documentSnapshot.getString("category"),
                                 documentSnapshot.getString("comments"),
                                 documentSnapshot.getString("url_Image"));
@@ -113,7 +120,7 @@ public class ReportClusteringModule {
     }
 
     private interface FirestoreCallback {
-        void onCallBack(ArrayList<Report> reports);
+        void onCallBack(ArrayList<Report> hourCluster);
     }
     //Check later
     public ArrayList<SummaryReports> groupReports(ArrayList<Report> reports){
@@ -189,7 +196,7 @@ public class ReportClusteringModule {
         ArrayList<String> imgUrls=new ArrayList<>();
         ArrayList<String> comments=new ArrayList<>();
         ArrayList<String> userID=new ArrayList<>();
-        ArrayList<Timestamp> timestamp = new ArrayList<Timestamp>();
+        ArrayList<Long> timestamp = new ArrayList<Long>();
         ArrayList<Float> lon= new ArrayList<>(),lat = new ArrayList<>();
 
         for(Report report : arrayOfReports){

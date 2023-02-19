@@ -68,8 +68,6 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     Uri imagePath;
     ImageView gallleryPick;
 
-    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +131,7 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void sendReport(View v){
         Date date = new Date();
-        Report report = new Report(userData.getID(),longitude,latitude, new Timestamp(date),category,comments.getText().toString(),null);
+        Report report = new Report(userData.getID(),longitude,latitude, System.currentTimeMillis(),category,comments.getText().toString(),null);
         UploadReport currentImage = new UploadReport(imagePath,UserActivity.this,userData.getID(),report);
         currentImage.imagetoCloudAndFileReport(UserActivity.this);
     }

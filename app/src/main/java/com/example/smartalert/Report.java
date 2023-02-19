@@ -6,12 +6,12 @@ public class Report {
     private String user_ID_FK;
     private String report_longitude;
     private String report_latitude;
-    private Timestamp timestamp;
+    private long timestamp;
     private String category;
     private String comments;
     private String url_Image;
 
-    public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, Timestamp build_timestamp, String build_category, String build_comments, String build_url_Image) {
+    public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, long build_timestamp, String build_category, String build_comments, String build_url_Image) {
         user_ID_FK = build_user_ID_FK;
         report_longitude = build_report_longitude;
         report_latitude = build_report_latitude;
@@ -33,7 +33,7 @@ public class Report {
         report_latitude = set_report_latitude;
     }
 
-    public void setTimestamp(Timestamp set_timestamp) {
+    public void setTimestamp(long set_timestamp) {
         timestamp = set_timestamp;}
 
     public void setCategory(String set_category) {
@@ -60,7 +60,7 @@ public class Report {
         return report_latitude;
     }
 
-    public Timestamp getTimespamp() {
+    public long getTimespamp() {
         return timestamp;
     }
 

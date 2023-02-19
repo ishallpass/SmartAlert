@@ -9,7 +9,8 @@ public class bridgeSummaryAndReportsArray{
     ArrayList<String> comments;
     ArrayList<String> userID;
     ArrayList<Float> longitude,latitude;
-    Timestamp firstTimestamp,lastTimestamp;
+    Long firstTimestamp;
+    Timestamp lastTimestamp;
 
 
     public bridgeSummaryAndReportsArray() {
@@ -36,7 +37,7 @@ public class bridgeSummaryAndReportsArray{
         return userID;
     }
 
-    public Timestamp getFirstTimestamp() {
+    public Long getFirstTimestamp() {
         return firstTimestamp;
     }
 
@@ -64,7 +65,7 @@ public class bridgeSummaryAndReportsArray{
         this.userID = userID;
     }
 
-    public void setFirstTimestamp(Timestamp firstTimestamp) {
+    public void setFirstTimestamp(Long firstTimestamp) {
         this.firstTimestamp = firstTimestamp;
     }
 
