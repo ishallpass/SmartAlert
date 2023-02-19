@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,26 +15,37 @@ import java.util.ArrayList;
 public class activity_admin extends AppCompatActivity {
     TextView datadataview;
     String data;
-
+    ArrayList<SummaryReports> allReportsArray=new ArrayList<>();
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     ArrayList<Report> reportArrayList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-        Button button = findViewById(R.id.button2);
-        datadataview = findViewById(R.id.textView3);
-        ReportClusteringModule all = new ReportClusteringModule();
+        ReportClusteringModule allReports = new ReportClusteringModule();
+        allReports.getReports(this);
 
-        all.getReports(this);
-        all.groupByCategory(all.reportArrayList1stHourCluster);
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_admin);
+
+        Button button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                datadataview.append(all.groupByCategory(all.reportArrayList1stHourCluster).toString());
+                setUpReportReciclerView(allReports);
             }
         });
+
+        setUpReportReciclerView(allReports);
+
+
+
+    }
+    public void setUpReportReciclerView(ReportClusteringModule allReports){
+        RecyclerView recyclerView = findViewById(R.id.recycleReports);
+        recyclerView.setNestedScrollingEnabled(false);
+        RecyclerViewReportsAdmin adapter = new RecyclerViewReportsAdmin(activity_admin.this,this,allReports.idk);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     }

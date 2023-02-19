@@ -1,21 +1,24 @@
 package com.example.smartalert;
 
-import java.sql.Timestamp;
+import android.util.Log;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
 import java.util.ArrayList;
 
-public class SummaryReports {
-    private String ID;
+public class SummaryReports extends FirebaseMessagingService {
+    private static final String TAG = "new Token";
     private ArrayList<String> UserIDs;
     private Integer Severity;
-    private String AvgLongitude;
-    private String AvgLatittude;
-    private Timestamp Firsttimestamp;
+    private Float AvgLongitude;
+    private Float AvgLatittude;
+    private long Firsttimestamp;
     private String Category;
     private ArrayList<String> Imgurls;
     private ArrayList<String> Comments;
 
-    public SummaryReports(String ID, ArrayList<String> userIDs, Integer severity, String avgLongitude, String avgLatittude, Timestamp firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
-        this.ID = ID;
+    public SummaryReports(ArrayList<String> userIDs, Integer severity, Float avgLongitude, Float avgLatittude, long firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
         UserIDs = userIDs;
         Severity = severity;
         AvgLongitude = avgLongitude;
@@ -26,8 +29,27 @@ public class SummaryReports {
         Comments = comments;
     }
 
-    public String getID() {
-        return ID;
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+
+        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+            if (true) {
+                //scheduleJob();
+            } else {
+                // Handle message within 10 seconds
+                //handleNow();
+            }
+
+        }
+        if (remoteMessage.getNotification() != null) {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+        }
     }
 
     public ArrayList<String> getUserIDs() {
@@ -38,15 +60,15 @@ public class SummaryReports {
         return Severity;
     }
 
-    public String getAvgLongitude() {
+    public Float getAvgLongitude() {
         return AvgLongitude;
     }
 
-    public String getAvgLatittude() {
+    public Float getAvgLatittude() {
         return AvgLatittude;
     }
 
-    public Timestamp getFirsttimestamp() {
+    public long getFirsttimestamp() {
         return Firsttimestamp;
     }
 
@@ -70,15 +92,15 @@ public class SummaryReports {
         Severity = severity;
     }
 
-    public void setAvgLongitude(String avgLongitude) {
+    public void setAvgLongitude(Float avgLongitude) {
         AvgLongitude = avgLongitude;
     }
 
-    public void setAvgLatittude(String avgLatittude) {
+    public void setAvgLatittude(Float avgLatittude) {
         AvgLatittude = avgLatittude;
     }
 
-    public void setFirsttimestamp(Timestamp firsttimestamp) {
+    public void setFirsttimestamp(long firsttimestamp) {
         Firsttimestamp = firsttimestamp;
     }
 
