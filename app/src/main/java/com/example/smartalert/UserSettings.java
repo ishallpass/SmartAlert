@@ -27,6 +27,7 @@ public class UserSettings extends AppCompatActivity {
     FirebaseUser mUser;
     FirebaseFirestore firebaseFirestore;
     Button saveButton;
+    Button viewReports;
 
     EditText username , email , password , passwordCheck ;
     @Override
@@ -49,7 +50,6 @@ public class UserSettings extends AppCompatActivity {
 
         email.setText(mUser.getEmail());
 
-                
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +117,8 @@ public class UserSettings extends AppCompatActivity {
         if (menu.getVisibility() == View.INVISIBLE) menu.setVisibility(View.VISIBLE);
         else menu.setVisibility(View.INVISIBLE);
     }
-
-
+    public void launchViewReports(View v){
+        startActivity(new Intent(UserSettings.this,UserReports.class));
+    }
 }
+

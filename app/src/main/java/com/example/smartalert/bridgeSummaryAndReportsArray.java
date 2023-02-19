@@ -1,13 +1,15 @@
 package com.example.smartalert;
 
+import com.google.firebase.Timestamp;
+
 import java.util.ArrayList;
 
-class bridgeSummaryAndReportsArray{
+public class bridgeSummaryAndReportsArray{
     ArrayList<String> imgurls;
     ArrayList<String> comments;
     ArrayList<String> userID;
     ArrayList<Float> longitude,latitude;
-    long firstTimestamp,lastTimestamp;
+    Timestamp firstTimestamp,lastTimestamp;
 
 
     public bridgeSummaryAndReportsArray() {
@@ -34,11 +36,11 @@ class bridgeSummaryAndReportsArray{
         return userID;
     }
 
-    public long getFirstTimestamp() {
+    public Timestamp getFirstTimestamp() {
         return firstTimestamp;
     }
 
-    public long getLastTimestamp() {
+    public Timestamp getLastTimestamp() {
         return lastTimestamp;
     }
 
@@ -62,11 +64,11 @@ class bridgeSummaryAndReportsArray{
         this.userID = userID;
     }
 
-    public void setFirstTimestamp(long firstTimestamp) {
+    public void setFirstTimestamp(Timestamp firstTimestamp) {
         this.firstTimestamp = firstTimestamp;
     }
 
-    public void setLastTimestamp(long lastTimestamp) {
+    public void setLastTimestamp(Timestamp lastTimestamp) {
         this.lastTimestamp = lastTimestamp;
     }
 }

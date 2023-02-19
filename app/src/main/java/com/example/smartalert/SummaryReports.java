@@ -2,6 +2,7 @@ package com.example.smartalert;
 
 import android.util.Log;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -13,12 +14,12 @@ public class SummaryReports extends FirebaseMessagingService {
     private Integer Severity;
     private Float AvgLongitude;
     private Float AvgLatittude;
-    private long Firsttimestamp;
+    private Timestamp Firsttimestamp;
     private String Category;
     private ArrayList<String> Imgurls;
     private ArrayList<String> Comments;
 
-    public SummaryReports(ArrayList<String> userIDs, Integer severity, Float avgLongitude, Float avgLatittude, long firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
+    public SummaryReports(ArrayList<String> userIDs, Integer severity, Float avgLongitude, Float avgLatittude, Timestamp firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
         UserIDs = userIDs;
         Severity = severity;
         AvgLongitude = avgLongitude;
@@ -68,7 +69,7 @@ public class SummaryReports extends FirebaseMessagingService {
         return AvgLatittude;
     }
 
-    public long getFirsttimestamp() {
+    public Timestamp getFirsttimestamp() {
         return Firsttimestamp;
     }
 
@@ -100,7 +101,7 @@ public class SummaryReports extends FirebaseMessagingService {
         AvgLatittude = avgLatittude;
     }
 
-    public void setFirsttimestamp(long firsttimestamp) {
+    public void setFirsttimestamp(Timestamp firsttimestamp) {
         Firsttimestamp = firsttimestamp;
     }
 

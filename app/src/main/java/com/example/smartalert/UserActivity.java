@@ -37,9 +37,13 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -128,12 +132,10 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void sendReport(View v){
-        Report report = new Report(userData.getID(),longitude,latitude,System.currentTimeMillis(),category,comments.getText().toString(),null);
-
+        Date date = new Date();
+        Report report = new Report(userData.getID(),longitude,latitude, new Timestamp(date),category,comments.getText().toString(),null);
         UploadReport currentImage = new UploadReport(imagePath,UserActivity.this,userData.getID(),report);
-
         currentImage.imagetoCloudAndFileReport(UserActivity.this);
-
     }
 
     public void launchUsersettings(View v) {

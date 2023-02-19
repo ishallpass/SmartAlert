@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()){
                                 for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                                    role[0] = documentSnapshot.get("role").toString();
-                                    myUser.setEmail(documentSnapshot.get("email").toString());
-                                    myUser.setUsername(documentSnapshot.get("username").toString());
-                                    myUser.setRole(documentSnapshot.get("role").toString());
-                                    myUser.setLast_latitude(documentSnapshot.get("last_latitude").toString());
-                                    myUser.setLast_latitude(documentSnapshot.get("last_longitude").toString());
+                                    role[0] = documentSnapshot.getString("role");
+                                    myUser.setEmail(documentSnapshot.getString("email"));
+                                    myUser.setUsername(documentSnapshot.getString("username"));
+                                    myUser.setRole(documentSnapshot.getString("role"));
+                                    myUser.setLast_latitude(documentSnapshot.getString("last_latitude"));
+                                    myUser.setLast_latitude(documentSnapshot.getString("last_longitude"));
                                     myUser.setID(documentSnapshot.getId());
                                 }
                             }
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
         public void launchAdmin(User adminData){
-            Intent i = new Intent(this, activity_admin.class);
+            Intent i = new Intent(this, AdminActivity.class);
             //Pass data to other activity
             i.putExtra("email", adminData.getUsername());
             i.putExtra("role", adminData.getRole());

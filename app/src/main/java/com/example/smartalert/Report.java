@@ -1,19 +1,21 @@
 package com.example.smartalert;
 
+import com.google.firebase.Timestamp;
+
 public class Report {
     private String user_ID_FK;
     private String report_longitude;
     private String report_latitude;
-    private long timespamt;
+    private Timestamp timestamp;
     private String category;
     private String comments;
     private String url_Image;
 
-    public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, long build_timespamt, String build_category, String build_comments, String build_url_Image) {
+    public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, Timestamp build_timestamp, String build_category, String build_comments, String build_url_Image) {
         user_ID_FK = build_user_ID_FK;
         report_longitude = build_report_longitude;
         report_latitude = build_report_latitude;
-        timespamt = build_timespamt;
+        timestamp = build_timestamp;
         category = build_category;
         comments = build_comments;
         url_Image = build_url_Image;
@@ -31,7 +33,8 @@ public class Report {
         report_latitude = set_report_latitude;
     }
 
-    public void setTimespamt(long set_timespamt) {timespamt = set_timespamt;}
+    public void setTimestamp(Timestamp set_timestamp) {
+        timestamp = set_timestamp;}
 
     public void setCategory(String set_category) {
         category = set_category;
@@ -57,8 +60,8 @@ public class Report {
         return report_latitude;
     }
 
-    public long getTimespamp() {
-        return timespamt;
+    public Timestamp getTimespamp() {
+        return timestamp;
     }
 
     public String getCategory() {
