@@ -8,6 +8,7 @@ public class Report {
     private String category;
     private String comments;
     private String url_Image;
+    private String ReportId;
 
     public Report(String build_user_ID_FK, String build_report_longitude, String build_report_latitude, long build_timespamt, String build_category, String build_comments, String build_url_Image) {
         user_ID_FK = build_user_ID_FK;
@@ -29,6 +30,18 @@ public class Report {
 
     public void setReport_latitude(String set_report_latitude) {
         report_latitude = set_report_latitude;
+    }
+
+    public void setReportId(String reportId) {
+        ReportId = reportId;
+    }
+
+    public long getTimespamt() {
+        return timespamt;
+    }
+
+    public String getReportId() {
+        return ReportId;
     }
 
     public void setTimespamt(long set_timespamt) {timespamt = set_timespamt;}

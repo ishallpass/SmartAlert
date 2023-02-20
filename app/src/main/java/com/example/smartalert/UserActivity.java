@@ -29,17 +29,30 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQueryBounds;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,12 +70,16 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
     Spinner spinner;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final int REQUEST_LOCATION_PERMISSION = 100;
+    alertRecycle adapter2 ;
 
     String longitude,latitude,category=null;
 
     EditText comments;
     Uri imagePath;
     ImageView gallleryPick;
+    RecyclerView recyclerView;
+    ArrayList<String> message = new ArrayList<>();
+
 
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -80,7 +97,8 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
         userData.setEmail(i.getStringExtra("email"));
         userData.setUsername(i.getStringExtra("username"));
         userData.setID(i.getStringExtra("ID"));
-
+        userData.setLast_latitude(i.getStringExtra("latitude"));
+        userData.setLast_longitude(i.getStringExtra("longitude"));
         helloText = findViewById(R.id.usergreetText);
         helloText.setText("Hi, " + userData.getUsername());
 
@@ -96,8 +114,10 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         gallleryPick = findViewById(R.id.galleryPickView);
 
-
         getLocation();
+        checkForAlert(this);
+
+
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +154,50 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         currentImage.imagetoCloudAndFileReport(UserActivity.this);
 
+    }
+    public void checkForAlert(Activity activity) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final GeoLocation center = new GeoLocation(Float.valueOf(userData.getLast_latitude()), Float.valueOf(userData.getLast_longitude()));
+        final double radiusInM = 10 * 1000;
+        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+        final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+        for (GeoQueryBounds b : bounds) {
+            Query q = db.collection("Alerts")
+                    .orderBy("geohash")
+                    .startAt(b.startHash)
+                    .endAt(b.endHash);
+
+            tasks.add(q.get());
+        }
+
+        Tasks.whenAllComplete(tasks)
+                .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<Task<?>>> t) {
+                        List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+
+                        for (Task<QuerySnapshot> task : tasks) {
+                            QuerySnapshot snap = task.getResult();
+                            for (DocumentSnapshot doc : snap.getDocuments()) {
+                                double lat =  doc.getDouble("latitude");
+                                double lng =  doc.getDouble("longitude");
+
+
+                                GeoLocation docLocation = new GeoLocation(lat, lng);
+                                double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
+                                if (distanceInM <= radiusInM) {
+                                    matchingDocs.add(doc);
+                                    message.add(doc.getString("body"));
+
+                                }
+                            }
+                        };
+                        recyclerView = findViewById(R.id.Alerts);
+                        adapter2 = new alertRecycle(message, activity);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+                        recyclerView.setAdapter(adapter2);
+                    }
+                });
     }
 
     public void launchUsersettings(View v) {
@@ -231,4 +295,19 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
 
+
+
+    public ArrayList<Float> latlonmax(float lat,float lng,int radius) {
+        ArrayList<Float> maxandmin=new ArrayList<>();
+        int earth = 6371 ;// earth radius in miles
+        float maxLat = (float) (((lat + Math.PI / 2) * 180) / Math.PI);
+        float minLat = (float) (((lat - Math.PI / 2) * 180) / Math.PI);
+        float maxLng = (float) (((lng + (Math.PI * radius) / earth) * 180) / Math.PI);
+        float minLng = (float) (((lng - (Math.PI * radius) / earth) * 180) / Math.PI);
+        maxandmin.add(maxLat);
+        maxandmin.add(minLat);
+        maxandmin.add(maxLng);
+        maxandmin.add(minLng);
+        return maxandmin;
+  }
 }

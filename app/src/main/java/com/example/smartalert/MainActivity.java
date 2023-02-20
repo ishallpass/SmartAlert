@@ -1,16 +1,16 @@
 package com.example.smartalert;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                     myUser.setUsername(documentSnapshot.get("username").toString());
                                     myUser.setRole(documentSnapshot.get("role").toString());
                                     myUser.setLast_latitude(documentSnapshot.get("last_latitude").toString());
-                                    myUser.setLast_latitude(documentSnapshot.get("last_longitude").toString());
+                                    myUser.setLast_longitude(documentSnapshot.get("last_longitude").toString());
                                     myUser.setID(documentSnapshot.getId());
                                 }
                             }
@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity {
         public void launchAdmin(User adminData){
             Intent i = new Intent(this, activity_admin.class);
             //Pass data to other activity
-            i.putExtra("email", adminData.getUsername());
+            i.putExtra("username",adminData.getUsername());
+            i.putExtra("email", adminData.getEmail());
             i.putExtra("role", adminData.getRole());
-            i.putExtra("latitude", adminData.getLast_latitude());
-            i.putExtra("longitude",adminData.getLast_longitude());
+            i.putExtra("ID",adminData.getID());
             startActivity(i);
         }
 }

@@ -22,14 +22,16 @@
             android:layout_height="238dp">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/buttonDENY"
                 android:layout_width="99dp"
                 android:layout_height="74dp"
                 android:layout_marginStart="312dp"
+                android:layout_marginEnd="8dp"
                 android:backgroundTint="@android:color/holo_red_light"
                 android:text="Deny"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.054" />
@@ -42,7 +44,7 @@
                 android:text="Accept"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.683"
+                app:layout_constraintHorizontal_bias="0.635"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.054" />
