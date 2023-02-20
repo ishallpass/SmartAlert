@@ -3,6 +3,7 @@ package com.example.smartalert;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -81,7 +82,16 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+    @Override
+    protected void attachBaseContext(Context newBase){
+        if (LanguageConfig.localeGr) {
+            Context context = LanguageConfig.changeLanguage(newBase, "Gr");
+            super.attachBaseContext(context);
+        }else{
+            Context context = LanguageConfig.changeLanguage(newBase, "En");
+            super.attachBaseContext(context);
+        }
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

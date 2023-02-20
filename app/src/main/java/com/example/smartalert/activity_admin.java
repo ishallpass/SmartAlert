@@ -1,5 +1,6 @@
 package com.example.smartalert;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,16 @@ public class activity_admin extends AppCompatActivity implements RecyclerViewInt
     ArrayList<Report> reportArrayList = new ArrayList<>();
     ReportClusteringModule allReports = new ReportClusteringModule();
     RecyclerViewReportsAdmin adapter ;
+    @Override
+    protected void attachBaseContext(Context newBase){
+        if (LanguageConfig.localeGr) {
+            Context context = LanguageConfig.changeLanguage(newBase, "Gr");
+            super.attachBaseContext(context);
+        }else{
+            Context context = LanguageConfig.changeLanguage(newBase, "En");
+            super.attachBaseContext(context);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

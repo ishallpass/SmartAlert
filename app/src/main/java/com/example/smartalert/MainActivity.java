@@ -1,6 +1,7 @@
 package com.example.smartalert;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,14 +29,27 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class MainActivity extends AppCompatActivity {
     EditText mailIinput,passwordInput;
     TextView someText ;
-    Button loginBtn;
+    Button loginBtn,locale;
     String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     FirebaseFirestore firebaseFirestore;
     ProgressDialog progressDialog;
 
-
+    public void toggleGr(View view) {
+        LanguageConfig.localeGr=!LanguageConfig.localeGr;
+        locale = findViewById(R.id.localeBtn);
+        if (LanguageConfig.localeGr){
+            locale.setText("En");
+        }else{
+            locale.setText("Gr");
+        }
+    }
+    @Override
+    protected void attachBaseContext(Context newBase){
+        Context context = LanguageConfig.changeLanguage(newBase,"en");
+        super.attachBaseContext(context);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
