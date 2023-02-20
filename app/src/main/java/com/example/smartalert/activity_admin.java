@@ -1,6 +1,5 @@
 package com.example.smartalert;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,16 +18,6 @@ public class activity_admin extends AppCompatActivity {
     ArrayList<SummaryReports> allReportsArray=new ArrayList<>();
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     ArrayList<Report> reportArrayList = new ArrayList<>();
-    @Override
-    protected void attachBaseContext(Context newBase){
-        if(LanguageConfig.localeGr) {
-            Context context = LanguageConfig.changeLanguage(newBase,"el");
-            super.attachBaseContext(context);
-        }else{
-            Context context = LanguageConfig.changeLanguage(newBase,"en");
-            super.attachBaseContext(context);
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ReportClusteringModule allReports = new ReportClusteringModule();

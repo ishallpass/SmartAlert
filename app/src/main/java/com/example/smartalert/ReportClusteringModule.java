@@ -63,6 +63,7 @@ public class ReportClusteringModule{
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         Report report = new Report(documentSnapshot.get("user_ID_FK").toString(), documentSnapshot.get("report_longitude").toString(), documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"), documentSnapshot.get("category").toString(), documentSnapshot.get("comments").toString(), documentSnapshot.get("url_Image").toString());
+                        report.setReportId(documentSnapshot.getId());
                         reportArrayList1stHourClusterNew.add(report);
                         Log.d(TAG, "o aetos");
 
@@ -86,8 +87,8 @@ public class ReportClusteringModule{
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         Report report = new Report(documentSnapshot.get("user_ID_FK").toString(), documentSnapshot.get("report_longitude").toString(), documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"), documentSnapshot.get("category").toString(), documentSnapshot.get("comments").toString(), documentSnapshot.get("url_Image").toString());
+                        report.setReportId(documentSnapshot.getId());
                         reportArrayList2ndHourClusterNew.add(report);
-                        Log.d(TAG, "o aetos");
                     }
 
                     setReportArrayList2ndHourCluster(reportArrayList2ndHourClusterNew);
@@ -97,7 +98,6 @@ public class ReportClusteringModule{
                         idk.addAll(summaryOf2h);
                     }
 
-                    Log.d(TAG, "o aetos o re enas aetos");
                 } else {
 
                     Toast.makeText(context, "Data error check connection", Toast.LENGTH_LONG).show();
@@ -111,8 +111,9 @@ public class ReportClusteringModule{
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                         Report report = new Report(documentSnapshot.get("user_ID_FK").toString(), documentSnapshot.get("report_longitude").toString(), documentSnapshot.get("report_latitude").toString(), (Long) documentSnapshot.get("timespamp"), documentSnapshot.get("category").toString(), documentSnapshot.get("comments").toString(), documentSnapshot.get("url_Image").toString());
+                        report.setReportId(documentSnapshot.getId());
                         reportArrayList3rdHourClusterNew.add(report);
-                        Log.d(TAG, "o aetos");
+
 
                     }
 
@@ -188,9 +189,12 @@ public class ReportClusteringModule{
     public ArrayList<SummaryReports> flattenAndCreateSummaryReports(Map<String, List<Report>> clearedByCategory){
         ArrayList<SummaryReports> actualReports= new ArrayList<>();
         for (Map.Entry<String, List<Report>> e : clearedByCategory.entrySet() ){
+
             ArrayList<Report> oneArrayCluster= (ArrayList<Report>) e.getValue();
             bridgeSummaryAndReportsArray bridge= getReportbridge(oneArrayCluster);
-            SummaryReports newSummary = new SummaryReports(bridge.getUserID(),calculateSeverity(oneArrayCluster,10),findAverage(bridge.getLongitude()),findAverage(bridge.getLatitude()),bridge.getFirstTimestamp(),e.getKey(),bridge.getImgurls(),bridge.getComments());
+
+            SummaryReports newSummary = new SummaryReports(bridge.getUserID(),bridge.getReportsIDs(),calculateSeverity(oneArrayCluster,10),findAverage(bridge.getLongitude()),findAverage(bridge.getLatitude()),bridge.getFirstTimestamp(),e.getKey(),bridge.getImgurls(),bridge.getComments());
+
             actualReports.add(newSummary);
         }
         return actualReports;
@@ -239,6 +243,7 @@ public class ReportClusteringModule{
         ArrayList<String> userID=new ArrayList<>();
         ArrayList<Long> timestamp = new ArrayList<Long>();
         ArrayList<Float> lon= new ArrayList<>(),lat = new ArrayList<>();
+        ArrayList<String> reportIds = new ArrayList<>();
 
         for(Report report : arrayOfReports){
             comments.add(report.getComments());
@@ -247,9 +252,9 @@ public class ReportClusteringModule{
             timestamp.add(report.getTimespamp());
             lat.add(Float.valueOf(report.getReport_latitude()));
             lon.add(Float.valueOf(report.getReport_longitude()));
+            reportIds.add(report.getReportId());
         }
 
-        //bridge.setComments(comments);
         bridge.setUserID(userID);
         bridge.setImgurls(imgUrls);
         bridge.setLastTimestamp(timestamp.stream().max(Long::compare).get());
@@ -257,6 +262,7 @@ public class ReportClusteringModule{
         bridge.setLatitude(lat);
         bridge.setLongitude(lon);
         bridge.setComments(comments);
+        bridge.setReportsIDs(reportIds);
 
         return bridge;
 

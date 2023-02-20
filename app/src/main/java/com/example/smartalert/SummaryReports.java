@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class SummaryReports extends FirebaseMessagingService {
     private static final String TAG = "new Token";
     private ArrayList<String> UserIDs;
+    private ArrayList<String> ReportIDs;
     private Integer Severity;
     private Float AvgLongitude;
     private Float AvgLatittude;
@@ -18,8 +19,9 @@ public class SummaryReports extends FirebaseMessagingService {
     private ArrayList<String> Imgurls;
     private ArrayList<String> Comments;
 
-    public SummaryReports(ArrayList<String> userIDs, Integer severity, Float avgLongitude, Float avgLatittude, long firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
+    public SummaryReports(ArrayList<String> userIDs,ArrayList<String> reportIDs, Integer severity, Float avgLongitude, Float avgLatittude, long firsttimestamp, String category, ArrayList<String> imgurls, ArrayList<String> comments) {
         UserIDs = userIDs;
+        ReportIDs = reportIDs;
         Severity = severity;
         AvgLongitude = avgLongitude;
         AvgLatittude = avgLatittude;
@@ -50,6 +52,14 @@ public class SummaryReports extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
+    }
+
+    public ArrayList<String> getReportIDs() {
+        return ReportIDs;
+    }
+
+    public void setReportIDs(ArrayList<String> reportIDs) {
+        ReportIDs = reportIDs;
     }
 
     public ArrayList<String> getUserIDs() {

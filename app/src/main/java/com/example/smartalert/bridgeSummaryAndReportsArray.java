@@ -7,11 +7,16 @@ class bridgeSummaryAndReportsArray{
     ArrayList<String> comments;
     ArrayList<String> userID;
     ArrayList<Float> longitude,latitude;
+    ArrayList<String> reportsIDs;
     long firstTimestamp,lastTimestamp;
 
 
     public bridgeSummaryAndReportsArray() {
 
+    }
+
+    public ArrayList<String> getReportsIDs() {
+        return reportsIDs;
     }
 
     public ArrayList<Float> getLongitude() {
@@ -40,6 +45,10 @@ class bridgeSummaryAndReportsArray{
 
     public long getLastTimestamp() {
         return lastTimestamp;
+    }
+
+    public void setReportsIDs(ArrayList<String> reportsIDs) {
+        this.reportsIDs = reportsIDs;
     }
 
     public void setLongitude(ArrayList<Float> longitude) {
