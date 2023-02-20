@@ -2,6 +2,8 @@ package com.example.smartalert;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,19 @@ public class UserSettings extends AppCompatActivity {
     Button saveButton;
 
     EditText username , email , password , passwordCheck ;
+
+
+    @Override
+    protected void attachBaseContext(Context newBase){
+        if(LanguageConfig.localeGr) {
+            Context context = LanguageConfig.changeLanguage(newBase,"el");
+            super.attachBaseContext(context);
+        }else{
+            Context context = LanguageConfig.changeLanguage(newBase,"en");
+            super.attachBaseContext(context);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

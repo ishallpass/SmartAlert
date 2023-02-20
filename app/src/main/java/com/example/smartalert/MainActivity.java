@@ -2,13 +2,25 @@ package com.example.smartalert;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.os.Parcelable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.internal.ContextUtils;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,17 +37,31 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
     EditText mailIinput,passwordInput;
     TextView someText ;
-    Button loginBtn;
+    Button loginBtn, locale;
     String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     FirebaseFirestore firebaseFirestore;
     ProgressDialog progressDialog;
 
+    public void toggleGr(View view) {
+        LanguageConfig.localeGr=!LanguageConfig.localeGr;
+        locale = findViewById(R.id.localeBtn);
+        locale.setText("EN");
+        if (!LanguageConfig.localeGr) locale.setText("GR");
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase){
+        Context context = LanguageConfig.changeLanguage(newBase,"en");
+        super.attachBaseContext(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void authenticate() {
         String email = mailIinput.getText().toString();
         String password = passwordInput.getText().toString();
