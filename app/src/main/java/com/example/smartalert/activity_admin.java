@@ -121,6 +121,7 @@ public class activity_admin extends AppCompatActivity implements RecyclerViewInt
         Alert.put("longitude",allReports.idk.get(position).getAvgLongitude());
         Alert.put("latitude",allReports.idk.get(position).getAvgLatittude());
         Alert.put("geohash",hash);
+        Alert.put("type",allReports.idk.get(position).getCategory());
         reportRef.add(Alert).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {

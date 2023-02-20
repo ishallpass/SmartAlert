@@ -63,8 +63,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class UserActivity extends AppCompatActivity implements OnMapReadyCallback , AdapterView.OnItemSelectedListener {
     User userData = new User();
     MapView yourLocation;
-    Button reportBtn;
-    Button submitReport;
+    Button reportBtn,submitReport,databutton;
     public Criteria criteria;
     TextView helloText;
     Spinner spinner;
@@ -117,6 +116,13 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocation();
         checkForAlert(this);
 
+        databutton=findViewById(R.id.generaldatabutton);
+        databutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openData();
+            }
+        });
 
         reportBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +151,10 @@ public class UserActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+    }
+    public void openData(){
+        Intent i = new Intent(this,Activity_generatedata.class);
+        startActivity(i);
     }
 
     public void sendReport(View v){
