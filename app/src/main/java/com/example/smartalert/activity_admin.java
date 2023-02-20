@@ -60,6 +60,34 @@ public class activity_admin extends AppCompatActivity {
         RecyclerViewReportsAdmin adapter = new RecyclerViewReportsAdmin(activity_admin.this,this,allReports.idk);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
+        String hash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(allReports.idk.get(position).getAvgLatittude(), allReports.idk.get(position).getAvgLongitude()));
+
+        Alert.put("body", "Natural disasters of Type : "+allReports.idk.get(position).getCategory()+" reported in your area please be aware!!!");
+        Alert.put("longitude",allReports.idk.get(position).getAvgLongitude());
+        Alert.put("latitude",allReports.idk.get(position).getAvgLatittude());
+        Alert.put("geohash",hash);
+        Alert.put("type",allReports.idk.get(position).getCategory());
+        reportRef.add(Alert).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Toast.makeText(getApplicationContext(), "Alert sent", Toast.LENGTH_LONG).show();
+            }
+        });
+        for(String id: allReports.idk.get(position).getReportIDs()) {
+            reportRef.document(id).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(getApplicationContext(), "report deleted", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        }
+
+        allReports.idk.remove(position);
+        adapter.notifyItemRemoved(position);
     }
+}

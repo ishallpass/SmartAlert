@@ -5,12 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.smartalert.UserActivity">
+    
+    <Button
+        android:id="@+id/generaldatabutton"
+        android:layout_width="413dp"
+        android:layout_height="69dp"
+        android:text="view generall data about alerts in greece"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.993"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintVertical_bias="0.256" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Alerts"
+        android:layout_width="390dp"
+        android:layout_height="343dp"
+        android:layout_marginBottom="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/reportbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/Reportlayout"
-        android:layout_width="310dp"
-        android:layout_height="442dp"
-        android:layout_marginBottom="156dp"
+        android:layout_width="309dp"
+        android:layout_height="434dp"
         android:background="@drawable/rounded_border"
         android:overScrollMode="always"
         android:visibility="invisible"
@@ -142,6 +164,19 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="7dp"
             tools:ignore="MissingConstraints" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="68dp"
+            android:layout_height="64dp"
+            android:onClick="launchUsersettings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.959"
+            app:layout_constraintStart_toEndOf="@+id/usergreetText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.459"
+            app:srcCompat="@drawable/ic_baseline_settings_24" />
 
         <ImageButton
             android:id="@+id/settingsButton"
