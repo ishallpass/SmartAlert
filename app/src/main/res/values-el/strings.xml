@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="project_title">Έξυπνος Αναφόρεας</string>
+    <string name="hello_user">Γεία σου, Χρήστη</string>
+    <string name="welcome_msg">Καλώς ήρθες στον φάρο</string>
+    <string name="user_edit_profile">Επεξεργασία Προφίλ</string>
+    <string name="admin_accept_report">Αποδοχή</string>
+    <string name="admin_deny_report">Αρνήση</string>
+    <string name="category_text">Κατηγορία</string>
+    <string name="admin_severity">Σοβαρότητα</string>
+    <string name="admin_view_report_button">Εμφανήση περιστατικών</string>
+    <string name="user_comments">περιγραφή</string>
+    <string name="report_text">Αναφορά</string>
+</resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.smartalert.UserActivity">
-
+    
     <Button
         android:id="@+id/generaldatabutton"
         android:layout_width="413dp"
@@ -40,7 +40,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.493">
 
         <TextView
@@ -48,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Category"
+            android:text="@string/category_text"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
-            android:text="comments"
+            android:text="@string/user_comments"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="REPORT"
+            android:text="@string/report_text"
             app:iconTint="#AE5D5D"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +105,7 @@
             android:layout_width="283dp"
             android:layout_height="45dp"
             android:layout_marginStart="14dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="13dp"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,32 +140,33 @@
 
         <TextView
             android:id="@+id/usergreetText"
-            android:layout_width="330dp"
-            android:layout_height="72dp"
-            android:text="Hi User"
+            android:layout_width="206dp"
+            android:layout_height="46dp"
+            android:text="@string/hello_user"
             android:textColor="#009688"
-            android:textSize="34sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.032"
+            app:layout_constraintHorizontal_bias="0.034"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.494" />
+            app:layout_constraintVertical_bias="0.387" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Latest Reports"
+            android:text="@string/project_title"
             android:textColor="#009688"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.026"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="7dp" />
+            tools:layout_editor_absoluteY="7dp"
+            tools:ignore="MissingConstraints" />
 
         <ImageButton
-            android:id="@+id/settingsButton2"
+            android:id="@+id/settingsButton"
             android:layout_width="68dp"
             android:layout_height="64dp"
             android:onClick="launchUsersettings"
@@ -198,12 +199,53 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:text="Report"
+        android:text="@string/report_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.996" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="154dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.311">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="78dp"
+            android:layout_height="71dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.512"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="#009688"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.107"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.247" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

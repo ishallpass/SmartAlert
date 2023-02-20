@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="emergency_categories">spinner</string>
+    <string name="emergency_categories" translatable="false">spinner</string>
     <string-array name="categories">
         <item>rain</item>
         <item>snow</item>

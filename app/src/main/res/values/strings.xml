@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">SmartAlert</string>
+    <string name="project_title">SmartAlert</string>
     <string name="hello_user">Hello, user</string>
+    <string name="welcome_msg">Welcome to Lighthouse</string>
+    <string name="user_edit_profile">Edit Profile</string>
+    <string name="admin_accept_report">Accept</string>
+    <string name="admin_deny_report">Deny</string>
+    <string name="category_text">Category</string>
+    <string name="admin_severity">Severity</string>
+    <string name="admin_view_report_button">View Reports</string>
+    <string name="user_comments">comments</string>
+    <string name="report_text">Report</string>
 </resources>

@@ -2,6 +2,8 @@ package com.example.smartalert;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserSettings extends AppCompatActivity {
+
+    public String locale;
+
     String emaiSyntax = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     String passwordSyntax = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$";
 
@@ -29,6 +34,20 @@ public class UserSettings extends AppCompatActivity {
     Button saveButton;
 
     EditText username , email , password , passwordCheck ;
+
+
+
+    @Override
+    protected void attachBaseContext(Context newBase){
+        if (LanguageConfig.localeGr) {
+            Context context = LanguageConfig.changeLanguage(newBase, "Gr");
+            super.attachBaseContext(context);
+        }else{
+            Context context = LanguageConfig.changeLanguage(newBase, "En");
+            super.attachBaseContext(context);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,6 +9,7 @@ android {
     compileSdk 32
 
     defaultConfig {
+        resConfigs ("en","el")
         applicationId "com.example.smartalert"
         minSdk 26
         targetSdk 32
